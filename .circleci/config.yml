@@ -1,27 +1,35 @@
 version: 2.1
 
 jobs:
-  tagged:
+  build:
     docker:
       - image: cimg/base:2021.04
     steps:
       - run:
-          name: The is the tagged job
-          command: echo 'You'll only see me if you added a tag called config-test'
-          
-  not-tagged:
-    docker:
-      - image: cimg/base:2021.04
-    steps:
-      - run:
-          name: The is the tagged job
+          name: The is the untagged job
           command: echo 'You'll see me, regardless of tags'
+          
+  deploy:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run:
+          name: The is the tagged job
+          command: echo 'You'll see me if there's a tag starting with v'
   
 workflows:
-  tagging-workflow:
+  build-deploy:
     jobs:
-       - tagged:
+      - build:
+          filters:  # required since `deploy` has tag filters AND requires `build`
+            tags:
+              only: /.*/
+      - deploy:
+          requires:
+            - build
           filters:
             tags:
-              only: /^config-test.*/
-       - not-tagged
+              only: /^v.*/
+            branches:
+              ignore: /.*/
+
