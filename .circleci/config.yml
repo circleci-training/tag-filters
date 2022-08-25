@@ -7,7 +7,7 @@ jobs:
     steps:
       - run:
           name: The is the untagged job
-          command: echo 'You'll see me, regardless of tags'
+          command: echo "You'll see me, regardless of tags"
           
   deploy:
     docker:
@@ -15,7 +15,7 @@ jobs:
     steps:
       - run:
           name: The is the tagged job
-          command: echo 'You'll see me if there's a tag starting with v'
+          command: echo "You'll see me if there's a tag starting with v"
   
 workflows:
   build-deploy:
