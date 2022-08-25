@@ -1,0 +1,27 @@
+version: 2.1
+
+jobs:
+  tagged:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run:
+          name: The is the tagged job
+          command: echo 'You'll only see me if you added a tag called config-test'
+          
+  not-tagged:
+    docker:
+      - image: cimg/base:2021.04
+    steps:
+      - run:
+          name: The is the tagged job
+          command: echo 'You'll see me, regardless of tags'
+  
+workflows:
+  tagging-workflow:
+    jobs:
+       - tagged:
+          filters:
+            tags:
+              only: /^config-test.*/
+       - not-tagged
