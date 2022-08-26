@@ -15,7 +15,7 @@ jobs:
     steps:
       - run:
           name: The is the tagged job
-          command: echo "You'll see me if there's a tag starting with v"
+          command: echo "You'll see me if there's a git tag starting with v"
   
 workflows:
   build-deploy:
